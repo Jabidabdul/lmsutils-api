@@ -7,15 +7,15 @@ const monthlyemi = (req,res)=>{
     const tempArray = [];
     let interestPay = 0;
     let totalPay = 0;
+    let loanEmi = 0;
     const findEmiAmount=(principal, interest, period)=>{
-        const loanEmi = 0;
         const month = true;
         const actutalInterest = Number(interest)/12/100;
         const totalInterest = Math.pow((1 + actutalInterest), month ? Number(period) : (Number(period)*12));
         const totalPrincipalAmount = Number(principal) * actutalInterest;
         const tempInterest = totalInterest - 1;
         const emiAmount = totalPrincipalAmount * (totalInterest/tempInterest);
-        LoanEmi = Math.round(emiAmount)
+        loanEmi = Math.round(emiAmount)
         const tempPeriod = month ? Number(period) : (Number(period)*12)
         let tempPrincipal = Number(principal)
         for(let i=0; i<tempPeriod; i++){
@@ -34,7 +34,7 @@ const monthlyemi = (req,res)=>{
         }
     }
     findEmiAmount(principal,interest,period);
-    res.status(200).json({success:true,data:{totalPay:totalPay,interestPay:interestPay,monthlyData:tempArray}});
+    res.status(200).json({success:true,data:{loanEmi:loanEmi,totalPay:totalPay,interestPay:interestPay,monthlyData:tempArray}});
 }
 
 module.exports = monthlyemi;  
