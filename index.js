@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors())
 
 app.use("/api/emi",monthlyRoute);
-app.use("/api/calculateDisbursal",calculateDisbursalRoutes)
+app.use("/api/calculatedisbursal",calculateDisbursalRoutes)
 app.all("*",(req,res)=>res.status(404).json({success:false,status:404}))
 
 
