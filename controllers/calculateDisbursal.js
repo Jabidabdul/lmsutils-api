@@ -123,6 +123,7 @@ const calculateDisbursal = (req,res)=>{
              daysdiff =parseInt(dd)-parseInt(loan_day)+5;
         }
 
+      console.log(daysdiff);
         let interestr = interest_rate/100;
         upfront_interest = parseFloat((daysdiff/365)*interestr*parseInt(sanction_amount),10).toFixed(2);
     
