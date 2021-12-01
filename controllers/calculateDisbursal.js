@@ -9,6 +9,7 @@ const calculateDisbursal = (req,res)=>{
     } = req.body;
 
     var {sanction_amount,loan_app_date,interest_rate} = borrowerinfo;
+    interest_rate = parseFloat(interest_rate || loanrequest.loan_int_rate,10);
     // var upfront_interest = borrowerinfo.upfront_interest;
     let {processing_fees_amt,loan_tenure,processing_fees_perc} = loanrequest;
     var upfront_interest = 0;
