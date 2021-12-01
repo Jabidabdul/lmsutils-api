@@ -152,7 +152,7 @@ const calculateDisbursal = (req,res)=>{
     let net_disburse_amt = (parseInt(sanction_amount)-pf-gst-upfront_interest).toFixed(2);
          const disburseData = {net_disburse_amt:net_disburse_amt,gst_on_pf:gst,total_charges:total_charges,pf:pf,upfront_interest}
            const data = {...disburseData};      
-        //    console.log(req.url, JSON.stringify(req.body,null,2));
+           console.log(req.url, JSON.stringify(req.body,null,2));
            res.status(200).json({success:true,data:data})
 }
 
