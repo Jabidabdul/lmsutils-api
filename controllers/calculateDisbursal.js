@@ -98,12 +98,11 @@ const borrowerinfo = {
     created_at: "2021-11-30T06:34:41.000Z"
   };
 
-  
+
 const calculateDisbursal = (req,res)=>{
    const {
         borrowerinfo,loanrequest
     } = req.body;
-
 
     var {sanction_amount,loan_app_date,interest_rate} = borrowerinfo;
     var upfront_interest = borrowerinfo.upfront_interest;
