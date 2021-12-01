@@ -106,13 +106,11 @@ const calculateDisbursal = (req,res)=>{
   //       borrowerinfo,loanrequest
   //   } = req.body;
 
-    var {sanction_amount,loan_app_date,interest_rate} = borrowerinfo;
-    interest_rate = parseFloat(interest_rate || loanrequest.loan_int_rate,10);
+    var {sanction_amount,loan_app_date} = borrowerinfo;
+   var  interest_rate = parseFloat(interest_rate || loanrequest.loan_int_rate,10);
     // var upfront_interest = borrowerinfo.upfront_interest;
     let {processing_fees_amt,loan_tenure,processing_fees_perc} = loanrequest;
     var upfront_interest = 0;
-
-        upfront_interest =0;
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var loan_day = loan_app_date.substring(8, 10);
@@ -125,8 +123,8 @@ const calculateDisbursal = (req,res)=>{
 
       console.log(daysdiff);
         let interestr = interest_rate/100;
+        console.log(interestr);
         upfront_interest = parseFloat((daysdiff/365)*interestr*parseInt(sanction_amount),10).toFixed(2);
-    
         var pf =0;
     if(!processing_fees_perc){
         if(!processing_fees_amt) {
@@ -146,7 +144,7 @@ const calculateDisbursal = (req,res)=>{
   const currEmiDate = `${curryear}-${currmonth}-05`
   const next = moment(currEmiDate).add(2, 'M').format("YYYY-MM-DD");
   console.log(next);
-
+  console.log(sanction_amount,daysdiff,upfront_interest);
     let gst = parseInt(((18/ 100) * parseInt(pf))).toFixed(2);
     let total_charges = parseInt(parseInt(processing_fees_amt)+parseInt(gst)+parseInt(upfront_interest)).toFixed(2);
     // let net_disburse_amt = parseInt(parseInt(sanction_amount)-parseInt(total_charges)).toFixed(2); 
