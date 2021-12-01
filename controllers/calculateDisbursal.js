@@ -126,24 +126,26 @@ const calculateDisbursal = (req,res)=>{
         let interestr = interest_rate/100;
         upfront_interest = parseFloat((daysdiff/365)*interestr*parseInt(sanction_amount),10).toFixed(2);
     
-    if(!processing_fees_amt){
-        if(!processing_fees_perc) {
+        var pf =0;
+    if(!processing_fees_perc){
+        if(!processing_fees_amt) {
             processing_fees_perc = 0;
             processing_fees_amt = 0;
         } else{
-            processing_fees_perc = parseFloat(processing_fees_perc,10); 
-            processing_fees_amt = (processing_fees_perc/100)*sanction_amount;
+           pf = parseFloat(processing_fees_amt).toFixed(2);
         }
+    }else{
+      pf = parseFloat((processing_fees_perc/100)*sanction_amount);
     }
+  
 
 
   const currmonth =  moment().month();
   const curryear = moment().year();
   const currEmiDate = `${curryear}-${currmonth}-05`
   const next = moment(currEmiDate).add(2, 'M').format("YYYY-MM-DD");
-console.log(next);
+  console.log(next);
 
-    let pf = (processing_fees_perc/100)*sanction_amount;
     let gst = parseInt(((18/ 100) * parseInt(pf))).toFixed(2);
     let total_charges = parseInt(parseInt(processing_fees_amt)+parseInt(gst)+parseInt(upfront_interest)).toFixed(2);
     // let net_disburse_amt = parseInt(parseInt(sanction_amount)-parseInt(total_charges)).toFixed(2); 
