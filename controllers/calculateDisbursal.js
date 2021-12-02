@@ -4,6 +4,7 @@ const moment = require('moment');
 
 
 
+
 const calculateDisbursal = (req,res)=>{
    const {
         borrowerinfo,loanrequest
@@ -15,13 +16,23 @@ const calculateDisbursal = (req,res)=>{
     let {processing_fees_amt,loan_tenure,processing_fees_perc} = loanrequest;
     var upfront_interest = 0;
         var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
         var loan_day = loan_app_date.substring(8, 10);
         var daysdiff = 0;
-        if(dd>=1 &&dd<=5){
-            daysdiff = 5-dd;
+
+        var next ="";
+        if(parseInt(loan_day)>=1 && parseInt(loan_day)<=5){
+            daysdiff = 5-parseInt(loan_day);
+            const currmonth =  moment().month();
+            const curryear = moment().year();
+            const currEmiDate = `${curryear}-${currmonth}-05`
+            next = moment(currEmiDate).add(2, 'M').format("YYYY-MM-DD");
         }else{
-             daysdiff =parseInt(dd)-parseInt(loan_day)+5;
+             daysdiff =30-parseInt(loan_day)+5;
+             const currmonth =  moment().month();
+             const curryear = moment().year();
+             const currEmiDate = `${curryear}-${currmonth}-05`
+             next = moment(currEmiDate).add(3, 'M').format("YYYY-MM-DD");
+             console.log("inside else",daysdiff);
         }
 
       console.log(daysdiff);
@@ -40,12 +51,6 @@ const calculateDisbursal = (req,res)=>{
       pf = parseFloat((processing_fees_perc/100)*sanction_amount);
     }
   
-
-
-  const currmonth =  moment().month();
-  const curryear = moment().year();
-  const currEmiDate = `${curryear}-${currmonth}-05`
-  const next = moment(currEmiDate).add(2, 'M').format("YYYY-MM-DD");
 
   console.log(sanction_amount,daysdiff,upfront_interest);
     let gst = parseInt(((18/ 100) * parseInt(pf))).toFixed(2);
