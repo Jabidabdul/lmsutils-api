@@ -9,35 +9,34 @@ const monthlyemi = (req,res)=>{
     let interestPay = 0;
     let totalPay = 0;
     let loanEmi = 0;
-    
     const findEmiAmount=(principal, interest, period)=>{
         const month = true;
-        const actutalInterest = Number(interest)/12/100;
-        const totalInterest = Math.pow((1 + actutalInterest), month ? Number(period) : (Number(period)*12));
-        const totalPrincipalAmount = Number(principal) * actutalInterest;
+        const actutalInterest = parseFloat(interest)/12/100;
+        const totalInterest = parseFloat(Math.pow((1 + actutalInterest), month ? parseInt(period) : (parseInt(period)*12)));
+        const totalPrincipalAmount = parseInt(principal) * actutalInterest;
         const tempInterest = totalInterest - 1;
-        const emiAmount = totalPrincipalAmount * (totalInterest/tempInterest);
-        loanEmi = Math.round(emiAmount)
-        const tempPeriod = month ? Number(period) : (Number(period)*12)
-        let tempPrincipal = Number(principal)
+        const emiAmount = parseFloat(totalPrincipalAmount * (totalInterest/tempInterest));
+        loanEmi = parseFloat(emiAmount.toFixed(2));
+        const tempPeriod = month ? parseInt(period) : (parseInt(period)*12)
+        let tempPrincipal = parseInt(principal)
         for(let i=0; i<tempPeriod; i++){
             const emiPerMonth = {total : 0 ,interest : 0 ,principal : 0 ,remaining_principle : tempPrincipal ,date: year,
             }
             emiPerMonth.date = months[(monthNumber++ >= 11) ? (monthNumber = 0) : monthNumber]
-            emiPerMonth.total = Math.round(emiAmount);
-            emiPerMonth.interest = Math.round(((emiPerMonth.remaining_principle) * (Number(interest)/100))/12);
-            emiPerMonth.principal = Math.round((Math.round(emiAmount))-(emiPerMonth.interest));
-            emiPerMonth.remaining_principle = Math.round(emiPerMonth.remaining_principle - emiPerMonth.principal);
-            tempPrincipal = emiPerMonth.remaining_principle;
+            emiPerMonth.total = parseFloat((emiAmount).toFixed(2));
+            emiPerMonth.interest = parseFloat((((emiPerMonth.remaining_principle) * (parseInt(interest)/100))/12).toFixed(2));
+            emiPerMonth.principal = parseFloat(((emiAmount)-(emiPerMonth.interest)).toFixed(2));
+            emiPerMonth.remaining_principle = parseFloat((emiPerMonth.remaining_principle - emiPerMonth.principal).toFixed(2));
+            tempPrincipal = parseFloat((emiPerMonth.remaining_principle)).toFixed(2);
             if(emiPerMonth.date === "01") year++;
             emiPerMonth.date = year+"-"+String(emiPerMonth.date)+"-"+String(emi_day);
             tempArray.push(emiPerMonth)
-            interestPay = interestPay + emiPerMonth.interest;
-            totalPay = totalPay + emiPerMonth.interest + emiPerMonth.principal;
+            interestPay = parseFloat(interestPay.toFixed(2)) + emiPerMonth.interest;
+            totalPay = parseFloat(totalPay + emiPerMonth.interest + emiPerMonth.principal);
         }
     }
     findEmiAmount(principal,interest,period);
-    res.status(200).json({success:true,data:{loan_emi:loanEmi,total:totalPay,interest_pay:interestPay,emi_monthly:tempArray}});
+    res.status(200).json({success:true,data:{principal:principal,loan_emi:loanEmi,total:totalPay,interest_pay:interestPay,emi_monthly:tempArray}});
 }
 
 module.exports = monthlyemi;  
