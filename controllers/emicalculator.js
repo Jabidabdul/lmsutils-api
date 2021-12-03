@@ -37,7 +37,7 @@ const monthlyemi = (req,res)=>{
         }
     }
     findEmiAmount(principal,interest,period);
-    res.status(200).json({success:true,data:{total:loanEmi,total:totalPay,interest_pay:interestPay,emi_monthly:tempArray}});
+    res.status(200).json({success:true,data:{loan_emi:loanEmi,total:totalPay,interest_pay:interestPay,emi_monthly:tempArray}});
 }
 
 module.exports = monthlyemi;  
